@@ -1,0 +1,61 @@
+<div class="main-wrapper">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div class="card glass">
+    <header>
+      <h1>🚀 Task Master <span class="pro-badge">PRO</span></h1>
+      <p class="subtitle">Focus on what matters most.</p>
+    </header>
+
+    <div class="input-group">
+      <input 
+        type="text" 
+        [ngModel]="newTaskTitle()" 
+        (ngModelChange)="newTaskTitle.set($event)"
+        placeholder="Add a new mission..."
+        (keydown.enter)="addTask()"
+      >
+      <button class="add-btn" (click)="addTask()">
+        <span>+</span>
+      </button>
+    </div>
+
+    <div class="status-bar">
+      <span class="task-count">
+        <strong>{{ tasks().length }}</strong> Pending
+      </span>
+      
+      @if (tasks().length > 0) {
+        <button class="clear-btn" (click)="clearAll()">Clear All</button>
+      }
+    </div>
+
+    <ul class="task-list">
+      @for (task of tasks(); track task.id) {
+        <li [class.completed]="task.completed" class="task-item">
+          
+          <div class="task-content" (click)="toggleComplete(task.id)">
+            <div class="custom-checkbox">
+              <div class="checkmark"></div>
+            </div>
+            
+            <span class="text">{{ task.title }}</span>
+          </div>
+
+          <button class="delete-icon" (click)="deleteTask(task.id)" title="Delete">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          </button>
+        </li>
+      } @empty {
+        <div class="empty-state">
+          <div class="empty-icon">✨</div>
+          <p>All clean! Time to relax.</p>
+        </div>
+      }
+    </ul>
+  </div>
+</div>
